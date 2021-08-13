@@ -255,7 +255,7 @@ $html .="            </div>
             
             <div class='dropdown-divider'></div>";
                     }
-                    $valorTotal = $valorTotal + $v['valor'];
+                    $valorTotal = $valorTotal + $valor;
                 }
             }
             $html .= '<a href="#" class="dropdown-item dropdown-footer"><b>Total: R$ <span id="valor-total-produtos-carrinho">' . number_format($valorTotal,2,',','.') . '</span></b></a>';
