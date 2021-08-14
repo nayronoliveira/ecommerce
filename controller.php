@@ -135,7 +135,7 @@ class Controller
         $sql = "select * from produto";
         if ($resp = $this->bd->query($sql)) {
             while ($obj = $resp->fetch_object()) {
-                if($obj->desconto>0){$valor = ($obj->valor - (($obj->valor*10)/100));}else{$valor =$obj->valor;}
+                if($obj->desconto>0){$valor = ($obj->valor - (($obj->valor*$obj->desconto)/100));}else{$valor =$obj->valor;}
                 $html .= "<div class='col-md-3 p-1' id='1' >
                 <div class='col-body-produto p-2 mb-1 rounded shadow' style='min-height:490px'>
                     <div class='img-thumb-produto'>
@@ -169,7 +169,7 @@ class Controller
         if ($resp = $this->bd->query($sql)) {
             while ($obj = $resp->fetch_object()) {
                 // print_r($obj->titulo);die();
-                if($obj->desconto>0){$valor ="R$ ".number_format(($obj->valor - (($obj->valor*10)/100)),2,',','.')."<br><span style='text-decoration:line-through'>R$ ".number_format($obj->valor,2,',','.')."</span>";}else{$valor = "R$ ".number_format($obj->valor,2,',','.');}
+                if($obj->desconto>0){$valor ="R$ ".number_format(($obj->valor - (($obj->valor*$obj->desconto)/100)),2,',','.')."<br><span style='text-decoration:line-through'>R$ ".number_format($obj->valor,2,',','.')."</span>";}else{$valor = "R$ ".number_format($obj->valor,2,',','.');}
                 $html .= "<tr>
                     <td><img style='height:100px' src='upload/$obj->imagem' /></td>
                     <td align='center'>$obj->id</td>
@@ -238,7 +238,7 @@ class Controller
             $valorTotal = 0;
             foreach ($_SESSION['carrinho'] as $k => $vv) {
                 foreach ($vv as $k => $v) {
-                    if($v['desconto']>0){$valor = ($v['valor'] - (($v['valor']*10)/100));}else{$valor =$v['valor'];}
+                    if($v['desconto']>0){$valor = ($v['valor'] - (($v['valor']*$v['desconto'])/100));}else{$valor =$v['valor'];}
                     if ($k == 0) {
                         $html .= "
                 <div class='media'>
