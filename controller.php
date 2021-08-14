@@ -144,12 +144,12 @@ class Controller
                     <div class='titulo-produto'><b>$obj->titulo</b></div>
                     <div class='descricao-produto mt-1'>
                     $obj->descricao
-                    </div>";
+                    </div><div class='valor-produto text-info mt-2'>";
                     if($obj->desconto>0){
-                        $html .= "<div class='valor-riscado-produto mt-1' style='text-decoration:line-through'><small>R$ ".number_format($obj->valor,2,",",".")."</small></div>";
+                        $html .= "<small class='valor-riscado-produto' style='text-decoration:line-through'>R$ ".number_format($obj->valor,2,",",".")."</small>";
                     }
-                    $html .= "<div class='valor-produto text-info'><b>R$ ".number_format($valor,2,",",".")."</b></div>
-                    <div class='parcelamento-produto'><small>$obj->parcelamento</small></div>
+                    $html .= "<h5 class='mb-0'><b>R$ ".number_format($valor,2,",",".")."</b></h5>
+                    <small class='parcelamento-produto'>$obj->parcelamento</small></div>
                     <div class='footer-col text-center mt-1 mb-4' style='position: absolute;bottom:0;width:90%'>
                     <button class='btn btn-success' onclick='addProdutoCarrinho($obj->id)'>+ Add Carrinho</button>
                     </div>

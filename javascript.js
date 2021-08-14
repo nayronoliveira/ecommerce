@@ -103,8 +103,9 @@ function cadastro(){
 function edit(id){
     $('html, body').animate({ scrollTop: $("#cadastro-produto").offset()['top']}, 500); 
     $("#cadastro-produto").attr('action','rota.php?acao=update')
-    $("[name='imagem']").removeAttr('required'); ///na edição  não é obrigatório mudar imagem
     $("#cadastro-produto .form-title").text("Editar Produto");
+    $("label[for=imagem]").text('Imagem');///tira * do título da imagem
+    $("[name='imagem']").removeAttr('required'); ///na edição não é obrigatório mudar imagem
 
     $.ajax({
         url: "rota.php?acao=edit",
@@ -180,6 +181,7 @@ function resetForm() {
     $("#cadastro-produto").trigger("reset");
     $("#cadastro-produto .form-title").text("Cadastrar Produto");
     $("[name='imagem']").attr('required',true);    
+    $("label[for=imagem]").text('Imagem *');
     $("#cadastro-produto").attr('action','rota.php?acao=cadastro');
 }
 

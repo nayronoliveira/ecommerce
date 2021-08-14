@@ -97,7 +97,7 @@
                     <input type="text" name="parcelamento" class="form-control" placeholder="digite a descrição do parcelamento">
                 </div>
                 <div class="col-md-4 form-group">
-                    <label for="parcelamento">Imagem *</label>
+                    <label for="imagem">Imagem *</label>
                     <input required type="file" name="imagem" class="form-control" placeholder="escolha a imagem do produto">
                 </div>
             </div>
@@ -131,7 +131,9 @@
     <script src="javascript.js"></script>
     <script>
         $(document).ready(function() {
+            setTimeout(function(){
             $('#grid').DataTable();
+        },1000)
         });
     </script>
 </body>
