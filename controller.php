@@ -1,7 +1,6 @@
 <?php
-define('DIR', $_SERVER['DOCUMENT_ROOT'] . "/" . explode("/", $_SERVER['REQUEST_URI'])[1]);
-
-include "conexao.php";
+require_once "configuracoes.php";
+require_once "conexao.php";
 
 class Controller
 {
@@ -22,8 +21,8 @@ class Controller
         $ArqPermitidos = array('jpg','jpeg','png');
         //print_r(in_array($d[1],$ArqPermitidos));die();
         if(in_array($d[1],$ArqPermitidos)){
-            if (is_dir(DIR . "/img")) {
-                $upload = move_uploaded_file($tmp_name, DIR . "/img/$nome_arquivo");
+            if (is_dir(DIR . "/upload")) {
+                $upload = move_uploaded_file($tmp_name, DIR . "/upload/$nome_arquivo");
                 if ($upload == true) {
                     //exit("UPLOAD REALIZADO COM SUCESSO");
                     return array('results' => true, "nome_arquivo" => $nome_arquivo);
@@ -42,7 +41,7 @@ class Controller
     {
         $titulo = addslashes($_POST['titulo']);
         $descricao = addslashes($_POST['descricao']);
-        $valor = $_POST['valor'];
+        $valor = str_replace(",",".",str_replace(".","",$_POST['valor']));
         $desconto = $_POST['desconto'];
         $parcelamento = $_POST['parcelamento'];
         $imagem = $_POST['imagem'];
@@ -84,7 +83,7 @@ class Controller
             $return = array('msg' => "Registro excluído com sucesso!", "results" => true);
 
             //print_r($dados);die();
-            unlink(DIR . "/img/$dados->imagem");
+            unlink(DIR . "/upload/$dados->imagem");
         } else {
             $return = array('msg' => "Error: " . $sql . "<br>" . mysqli_error($this->bd), "results" => false);
         }
@@ -97,7 +96,7 @@ class Controller
         $id = $_POST['id'];
         $titulo = addslashes($_POST['titulo']);
         $descricao = addslashes($_POST['descricao']);
-        $valor = $_POST['valor'];
+        $valor = str_replace(",",".",str_replace(".","",$_POST['valor']));
         $desconto = $_POST['desconto'];
         $parcelamento = $_POST['parcelamento'];
         $imagem = $_POST['imagem'];
@@ -109,9 +108,14 @@ class Controller
 
         if (mysqli_query($this->bd, $sql)) {
             if ($imagem) {
-
+                
+                $sql2 = "select * from produto WHERE id=$id";
+                $d = $this->bd->query($sql2)->fetch_object();
+               
                 $sql2 = "UPDATE produto SET imagem = '$imagem' WHERE id=$id";
+
                 if (mysqli_query($this->bd, $sql2)) {
+                     unlink(DIR . "/upload/$d->imagem");
                     $return = array('msg' => "Registro alterado com sucesso!", "results" => true);
                 } else {
                     $return = array('msg' => "Error: " . $sql2 . "<br>" . mysqli_error($this->bd), "results" => false);
@@ -135,7 +139,7 @@ class Controller
                 $html .= "<div class='col-md-3 p-1' id='1' >
                 <div class='col-body-produto p-2 mb-1 rounded shadow' style='min-height:490px'>
                     <div class='img-thumb-produto'>
-                        <img class='img-thumbnail' src='img/$obj->imagem' alt=''>
+                        <img class='img-thumbnail' src='upload/$obj->imagem' alt=''>
                     </div>
                     <div class='titulo-produto'><b>$obj->titulo</b></div>
                     <div class='descricao-produto mt-1'>
@@ -165,9 +169,9 @@ class Controller
         if ($resp = $this->bd->query($sql)) {
             while ($obj = $resp->fetch_object()) {
                 // print_r($obj->titulo);die();
-                if($obj->desconto>0){$valor ="R$ ".number_format(($obj->valor - (($obj->valor*10)/100)),2,',','.')."<br><span style='text-decoration:line-through'>R$ ".number_format($obj->valor,2,',','.')."</span>";}else{$valor =$obj->valor;}
+                if($obj->desconto>0){$valor ="R$ ".number_format(($obj->valor - (($obj->valor*10)/100)),2,',','.')."<br><span style='text-decoration:line-through'>R$ ".number_format($obj->valor,2,',','.')."</span>";}else{$valor = "R$ ".number_format($obj->valor,2,',','.');}
                 $html .= "<tr>
-                    <td><img style='height:100px' src='img/$obj->imagem' /></td>
+                    <td><img style='height:100px' src='upload/$obj->imagem' /></td>
                     <td align='center'>$obj->id</td>
                     <td>$obj->titulo</td>
                     <td>$obj->descricao</td>
@@ -175,16 +179,24 @@ class Controller
                     <td align='center'>$obj->desconto%</td>
                     <td>$obj->parcelamento</td>
                     <td align='center'>{$this->dataAmericanoParaBrasileiro($obj->dt_inc)}</td>
-                    <td><a class='btn btn-primary float-left' onclick='edit($obj->id)'>
+                    <td align='center'>
+                    <ul class='list-group list-group-horizontal' style='list-style: none;'>
+                    <li class='p-2'>
+                    <a class='btn btn-primary' data-toggle='tooltip' data-placement='top' title='editar' onclick='edit($obj->id)'>
                     <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil-square' viewBox='0 0 16 16'>
   <path d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z'/>
   <path fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z'/>
 </svg></a>
-<a class='btn btn-danger float-right' onclick='destroy($obj->id)'>
+</li>
+<li class='p-2'>
+<a class='btn btn-danger' data-toggle='tooltip' data-placement='top' title='excluir' onclick='destroy($obj->id)'>
 <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-trash' viewBox='0 0 16 16'>
   <path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/>
   <path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/>
-</svg></a></td>                
+</svg></a>
+</li>
+</ul>
+</td>                
 </tr>";
             }
         } else {
@@ -230,10 +242,10 @@ class Controller
                     if ($k == 0) {
                         $html .= "
                 <div class='media'>
-                    <img src='img/" . $v['imagem'] . "' alt='celular' class='mr-3 ml-3'>
+                    <img src='upload/" . $v['imagem'] . "' alt='celular' class='mr-3 ml-3'>
                     <div class='media-body' style='width: 15em'>
-                    <a href='#' class='dropdown-item m-0 p-0 pr-3 pt-2'>
-                        <h6 class='dropdown-item-title text-truncate' data-toggle='tooltip' data-placement='top' title='" . $v['titulo'] . "'>" . $v['titulo'] . "</h6>
+                    <a href='#' class='dropdown-item m-0 p-0 pr-3 pt-2' data-toggle='tooltip' data-placement='top' title='" . $v['titulo'] . "'>
+                        <h6 class='dropdown-item-title text-truncate' ><b>" . $v['titulo'] . "</b></h6>
                         <div class='text-sm text-muted'>Quantidade: " . count($vv) . "
                             <span class='float-right text-sm text-muted'>R$ " . number_format($valor,2,',','.') . "</span>
                         </div>

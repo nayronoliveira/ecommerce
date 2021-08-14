@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Produtos</title>
+    <link rel="shortcut icon" href="img/favicon.png" />
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <link rel="stylesheet" href="http://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
@@ -102,7 +103,7 @@
             </div>
             <div class="form-footer">
                 <button type="submit" class="btn btn-primary">Salvar</button>
-                <button type="reset" class="btn btn-danger">Cancelar</button>
+                <button type="button" onclick="resetForm()" class="btn btn-danger">Cancelar</button>
             </div>
         </form>
         <hr>
@@ -114,18 +115,18 @@
                         <th>ID</th>
                         <th style="width:150px">Produto</th>
                         <th style="width:150px">Descrição</th>
-                        <th style="width:80px">Valor</th>
+                        <th style="width:90px" align="center">Valor</th>
                         <th>Desconto</th>
                         <th>Parcelamento</th>
                         <th style="width:100px">Dt cadastro</th>
-                        <th style="width:90px">Ação</th>
+                        <th style="width:90px" align="center">Ação</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
             </table>
         </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="http://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script src="javascript.js"></script>
     <script>

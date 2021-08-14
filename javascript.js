@@ -104,6 +104,7 @@ function edit(id){
     $('html, body').animate({ scrollTop: $("#cadastro-produto").offset()['top']}, 500); 
     $("#cadastro-produto").attr('action','rota.php?acao=update')
     $("[name='imagem']").removeAttr('required'); ///na edição  não é obrigatório mudar imagem
+    $("#cadastro-produto .form-title").text("Editar Produto");
 
     $.ajax({
         url: "rota.php?acao=edit",
@@ -160,7 +161,7 @@ function addProdutoCarrinho(id){
 
             setTimeout(function(){
                 $('#carrinho').hide('500')
-            },5000)
+            },3000)
         }
     })
 }
@@ -177,6 +178,7 @@ function removerProdutoCarrinho(id){
 }
 function resetForm() {
     $("#cadastro-produto").trigger("reset");
+    $("#cadastro-produto .form-title").text("Cadastrar Produto");
     $("[name='imagem']").attr('required',true);    
     $("#cadastro-produto").attr('action','rota.php?acao=cadastro');
 }
