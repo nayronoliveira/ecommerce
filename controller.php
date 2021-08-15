@@ -137,7 +137,7 @@ class Controller
             while ($obj = $resp->fetch_object()) {
                 if($obj->desconto>0){$valor = ($obj->valor - (($obj->valor*$obj->desconto)/100));}else{$valor =$obj->valor;}
                 $html .= "<div class='col-md-3 p-1' id='1' >
-                <div class='col-body-produto p-2 mb-1 rounded shadow' style='min-height:490px'>
+                <div class='col-body-produto p-2 mb-1 rounded shadow' style='min-height:480px'>
                     <div class='img-thumb-produto'>
                         <img class='img-thumbnail' src='upload/$obj->imagem' alt=''>
                     </div>
@@ -242,9 +242,9 @@ class Controller
                     if ($k == 0) {
                         $html .= "
                 <div class='media'>
-                    <img src='upload/" . $v['imagem'] . "' alt='celular' class='mr-3 ml-3'>
-                    <div class='media-body' style='width: 15em'>
-                    <a href='#' class='dropdown-item m-0 p-0 pr-3 pt-2' data-toggle='tooltip' data-placement='top' title='" . $v['titulo'] . "'>
+                    <img src='upload/" . $v['imagem'] . "' alt='celular' class='mr-3'>
+                    <div class='media-body' style='width:50%'>
+                    <a href='#' class='dropdown-item m-0 p-0' data-toggle='tooltip' data-placement='top' title='" . $v['titulo'] . "'>
                         <h6 class='dropdown-item-title text-truncate' ><b>" . $v['titulo'] . "</b></h6>
                         <div class='text-sm text-muted'>Quantidade: " . count($vv) . "
                             <span class='float-right text-sm text-muted'>R$ " . number_format($valor,2,',','.') . "</span>
@@ -260,9 +260,9 @@ class Controller
   <path d='M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z'/>
 </svg></a>";
 if($v['desconto']>0){
-$html .="<span class='float-right text-sm text-muted mr-3' style='text-decoration:line-through'><small>R$ " . number_format($v['valor'],2,',','.') . "</small></span>";
+$html .="<span class='float-right text-sm text-muted' style='text-decoration:line-through'><small>R$ " . number_format($v['valor'],2,',','.') . "</small></span>";
 }                      
-$html .="            </div>
+$html .="<br><small class='parcelamento-produto float-right'>".$v['parcelamento']."</small>            </div>
                 </div>
             
             <div class='dropdown-divider'></div>";
@@ -270,15 +270,15 @@ $html .="            </div>
                     $valorTotal = $valorTotal + $valor;
                 }
             }
-            $html .= '<a href="#" class="dropdown-item dropdown-footer"><b>Total: R$ <span id="valor-total-produtos-carrinho">' . number_format($valorTotal,2,',','.') . '</span></b></a>';
+            $html .= '<a href="#" class="dropdown-item dropdown-footer pl-0"><b>Total: R$ <span id="valor-total-produtos-carrinho">' . number_format($valorTotal,2,',','.') . '</span></b></a>';
         } else {
             $html = '<a href="#" class="dropdown-item">
             <div class="media">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart mr-2" viewBox="0 0 16 16">
             <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
           </svg>
-                <div class="media-body" style="width: 15em">
-                    <h6 class="dropdown-item-title text-truncate" data-toggle="tooltip" data-placement="top" >Carrinho vazio.</h6>
+                <div class="media-body" style="width:50%"">
+                    <h6 class="dropdown-item-title text-truncate" >Carrinho vazio.</h6>
                 </div>
             </div>
         </a>';
