@@ -37,15 +37,15 @@
 
     <nav class="navbar navbar-expand bg-primary fixed-top">
         <!-- Right navbar links -->
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav w-100">
             <!-- Messages Dropdown Menu -->
-            <li class="nav-item dropdown show">
-                <button onclick="$('#carrinho').toggle()" data-toggle="dropdown" class="btn btn-info mt-1 nav-link">
+            <li class="nav-item dropdown show w-100">
+                <button onclick="$('#carrinho').toggle()" data-toggle="dropdown" class="btn btn-info mt-1 nav-link ml-auto">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart mr-2 mt-0" viewBox="0 0 16 16">
                         <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
                     </svg> 
                     Carrinho <span id="bt-valor-total-produtos-carrinho">vazio</span></button>
-                <div id="carrinho" class="dropdown-menu dropdown-menu-lg dropdown-menu-right pr-3 pl-3 produto-carrinho overflow-auto" style="width: 170%; left: inherit; right: 0px;max-height: 400px;">
+                <div id="carrinho" class="dropdown-menu dropdown-menu-lg dropdown-menu-right pr-3 pl-3 produto-carrinho overflow-auto w-100" style="min-width:250px;max-width: 400px; left: inherit; right: 0px;max-height: 400px;">
                 </div>
             </li>
 
